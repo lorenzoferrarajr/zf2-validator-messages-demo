@@ -9,6 +9,8 @@
 
 namespace Application\Controller;
 
+use Application\Form\ContactForm;
+use Application\Form\ContactFormFieldset;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -16,6 +18,27 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        $form = new ContactForm();
+        $formFieldset = new ContactFormFieldset();
+        $formFieldset->remove('terms');
+        $formFieldset->getInputFilterSpecification();
+        $formFieldset->setUseAsBaseFieldset(true);
+        $form->setBaseFieldset($formFieldset);
+        $form->add($formFieldset);
+
+        $form->setValidationGroup(array(
+            'security',
+            'contact_fieldset',
+        ));
+
+        $formValid = false;
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $formValid = true;
+            }
+        }
+
+        return new ViewModel(array('formValid' => $formValid, 'form' => $form));
     }
 }

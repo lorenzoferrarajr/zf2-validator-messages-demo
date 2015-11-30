@@ -33,11 +33,27 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><?php echo $this->translate('Help &amp; Support') ?></h3>
+                <h3 class="panel-title"><?php echo $this->translate('Contact us') ?></h3>
             </div>
             <div class="panel-body">
-                <p><?php echo sprintf($this->translate('If you need any help or support while developing with ZF2, you may reach us via IRC: %s#zftalk on Freenode%s. We\'d love to hear any questions or feedback you may have regarding the beta releases. Alternatively, you may subscribe and post questions to the %smailing lists%s.'), '<a href="irc://irc.freenode.net/zftalk">', '</a>', '<a href="http://framework.zend.com/wiki/display/ZFDEV/Mailing+Lists">', '</a>') ?></p>
-                <p><a class="btn btn-success pull-right" href="http://webchat.freenode.net?channels=zftalk" target="_blank"><?php echo $this->translate('Ping us on IRC') ?> &raquo;</a></p>
+                <?php
+
+                if ($formValid) {
+                    echo "Form is valid";
+                } else {
+                    echo "Form is not valid";
+                }
+
+                $form->prepare();
+
+                echo $this->form()->openTag($form);
+                echo $this->formRow($form->get('contact_fieldset')->get('name'));
+                echo $this->formRow($form->get('contact_fieldset')->get('surname'));
+                echo $this->formRow($form->get('contact_fieldset')->get('message'));
+                echo $this->formRow($form->get('contact_fieldset')->get('stato'));
+                echo $this->formSubmit($form->get('submit'));
+                echo $this->form()->closeTag();
+                ?>
             </div>
         </div>
     </div>
